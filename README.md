@@ -9,7 +9,7 @@
 
 Διάβασε πρώτα τις [ΟΔΗΓΙΕΣ.md](ΟΔΗΓΙΕΣ.md). Άνοιξε το `Thesamenot.sln` στο Visual Studio και το `Thesamenot.code-workspace` στο VS Code για προβολή όλων των αρχείων. Δες και τον [ΧΑΡΤΗΣ-ΑΡΧΕΙΩΝ.md](ΧΑΡΤΗΣ-ΑΡΧΕΙΩΝ.md).
 
-Οι κωδικοί και το `appsettings.Local.json` εξαιρούνται από Git και από το παραδοτέο ZIP. Το project δεν είναι δημοσιευμένο και δεν εισπράττει χρήματα μέχρι να ρυθμιστεί ο επαγγελματικός λογαριασμός Stripe και να ολοκληρωθούν οι απαιτήσεις ανοίγματος του καταστήματος.
+Οι κωδικοί και το `appsettings.Local.json` εξαιρούνται από Git και από το παραδοτέο ZIP. Υπάρχει δημόσιο δοκιμαστικό preview, χωρίς χρέωση χρημάτων. Πραγματικές πωλήσεις απαιτούν ρύθμιση του επαγγελματικού Stripe και ολοκλήρωση των απαιτήσεων ανοίγματος του καταστήματος.
 
 ## Γρήγορη εκκίνηση σε Windows
 
@@ -41,4 +41,4 @@
 
 ## Online preview — 09/10/2026
 
-Προετοιμάστηκε δωρεάν Render Docker service με frontend και loopback-only backend, ξεχωριστό Preview environment και εξωτερική Filess.io MariaDB. Το πραγματικό database version είναι 11.6.2. Οι τοπικές βάσεις και IDE ρυθμίσεις παραμένουν ανεξάρτητες. Δες [deploy/preview/README.md](deploy/preview/README.md) για ρυθμίσεις, TLS certificate pin, ιδιωτικά admin στοιχεία και όρια. Η ολοκλήρωση του Render deployment καταγράφεται χωριστά μετά την επιβεβαίωσή του. Οι πληρωμές του preview είναι αποκλειστικά simulation.
+Προετοιμάστηκε δωρεάν Render Docker service με frontend και loopback-only backend, ξεχωριστό Preview environment και εξωτερική Filess.io MariaDB. Το πραγματικό database version είναι 11.6.2. Οι τοπικές βάσεις και IDE ρυθμίσεις παραμένουν ανεξάρτητες. Δες [deploy/preview/README.md](deploy/preview/README.md) για ρυθμίσεις, TLS certificate pin, ιδιωτικά admin στοιχεία και όρια. Το Docker build και το deployment ολοκληρώθηκαν επιτυχώς στις 09/10/2026. Δημόσιο κατάστημα: [thesamenot-preview.onrender.com](https://thesamenot-preview.onrender.com), διαχείριση: [/admin](https://thesamenot-preview.onrender.com/admin). Το προσωπικό PC δεν χρειάζεται να λειτουργεί. Το Free service μπορεί να καθυστερεί στην πρώτη επίσκεψη μετά από αδράνεια. Οι πληρωμές του preview είναι αποκλειστικά simulation.

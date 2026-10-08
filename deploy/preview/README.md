@@ -44,6 +44,16 @@ dotnet run --project tools/StoreSetup -- --root D:/Projects/clothing-eshop --pre
 - Το Render Free μπορεί να κοιμάται μετά από αδράνεια και η πρώτη επίσκεψη να αργεί. Η MariaDB Free έχει μικρό όριο αποθήκευσης· χρησιμοποιούμε μόνο demo δεδομένα.
 - Το container filesystem είναι προσωρινό. Δεν αποθηκεύουμε uploads ή τη βάση εκεί. Τα Data Protection keys δεν είναι μόνιμα: admin sessions μπορεί να χρειάζονται νέο login μετά από restart/deploy.
 - Απουσία κάρτας δεν ενεργοποιούμε χρεώσεις ή αναβάθμιση όταν εξαντληθούν τα δωρεάν όρια.
-- Η αρχική εμπειρία public demo, το Docker build και τα πραγματικά όρια μνήμης πρέπει να επιβεβαιωθούν στο Render· τοπικά builds/smoke δεν αποδεικνύουν ότι ολοκληρώθηκε το deployment.
+- Το Docker build και το deploy ολοκληρώθηκαν στο Render στις 09/10/2026, σε 1m28s. Επιβεβαιώθηκαν δημόσια home/admin/API, assets, sitemap domain, admin login/logout και simulation checkout από Edge. Δεν έχει γίνει load test ή μέτρηση συμπεριφοράς στα όρια μνήμης/δωρεάν quota.
 
 Πηγές: [Render Free](https://render.com/docs/free), [Docker στο Render](https://render.com/docs/docker), [MySqlConnector TLS options](https://mysqlconnector.net/connection-options/).
+## Επιβεβαιωμένο deployment
+
+- Κατάστημα: https://thesamenot-preview.onrender.com
+- Διαχείριση: https://thesamenot-preview.onrender.com/admin
+- Render service: srv-db40sbad0e5s73fcvo5g, Free, Frankfurt.
+- Deployment: dep-db40sc2d0e5s73fcvpr0, κώδικας 7bc612d. Auto-Deploy Off· μελλοντικά code changes χρειάζονται Manual Deploy.
+- Το dashboard ονόμασε την ομάδα υπηρεσιών Production, αλλά το ASP.NET περιβάλλον επιβεβαιώθηκε από τα logs ως Preview.
+- Online admin email: admin@thesamenot.preview. Κωδικός στο τοπικό ignored .local/render-preview-access.txt, διαφορετικός από τον τοπικό admin.
+- Στην online βάση υπάρχει η δοκιμαστική παραγγελία 8AB5F455 με fake στοιχεία, paid/Simulation, €46 και ένα Ghost Hoodie L. Δεν έγινε πραγματική χρέωση. Το διαθέσιμο L είναι 14 μετά από αυτή τη δοκιμή.
+- Δεν καταχωρίστηκε κάρτα ούτε ενεργοποιήθηκε επί πληρωμή υπηρεσία/add-on.
