@@ -31,4 +31,4 @@ Run checks appropriate to the change. Preserve unrelated user changes, including
 
 The app is a local development implementation. Stripe live credentials, final merchant policies, email delivery, hosting and production operations remain unfinished. Do not describe it as ready for real sales.
 
-The private GitHub remote is https://github.com/GiorgosParaskevaidis/clothing-eshop. Local commits exist, but code has not been pushed because the stored Git CLI account differs from the repository owner. Do not force-push or silently switch identities.
+The private GitHub remote is https://github.com/GiorgosParaskevaidis/clothing-eshop. The implementation was pushed to main on 08/10/2026 after merging the initial remote history without force. main tracks origin/main. Two GitHub accounts are stored; use the command-scoped credential.username=GiorgosParaskevaidis override for this repository. Do not force-push or silently switch global identities.
