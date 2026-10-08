@@ -1,0 +1,36 @@
+# thesamenot — Drop 01
+
+Λειτουργική εφαρμογή e-shop βασισμένη στο `thesamenot-site-export.zip`.
+
+- **Frontend και διαχείριση:** Next.js 16.4, React 19.3, TypeScript.
+- **Backend:** ASP.NET Core / .NET 10.
+- **Δεδομένα:** MariaDB 10.11, MySqlConnector και Dapper.
+- **Πληρωμές:** Stripe Checkout με υπογεγραμμένα webhooks και ξεχωριστό τοπικό simulation.
+
+Διάβασε πρώτα τις [ΟΔΗΓΙΕΣ.md](ΟΔΗΓΙΕΣ.md). Άνοιξε το `Thesamenot.sln` στο Visual Studio και τον φάκελο `frontend` στο VS Code.
+
+Οι κωδικοί και το `appsettings.Local.json` εξαιρούνται από Git και από το παραδοτέο ZIP. Το project δεν είναι δημοσιευμένο και δεν εισπράττει χρήματα μέχρι να ρυθμιστεί ο επαγγελματικός λογαριασμός Stripe και να ολοκληρωθούν οι απαιτήσεις ανοίγματος του καταστήματος.
+
+## Γρήγορη εκκίνηση σε Windows
+
+Προαπαιτούμενα: .NET 10 SDK, Node.js 22 LTS, MariaDB 10.11.
+
+Από τον φάκελο του project:
+
+```powershell
+./scripts/setup.ps1
+```
+
+Σε δύο ξεχωριστά terminal:
+
+```powershell
+./scripts/start-backend.ps1
+```
+
+```powershell
+./scripts/start-frontend.ps1
+```
+
+Κατάστημα: `http://localhost:3000` · Διαχείριση: `http://localhost:3000/admin` · API: `http://127.0.0.1:5080`.
+
+Το setup ζητά τοπικά τα στοιχεία της MariaDB στην `127.0.0.1:3306`, δημιουργεί **καινούρια** βάση `thesamenot`, ειδικό χρήστη περιορισμένο σε αυτή τη βάση και hashed κωδικό διαχειριστή. Δεν μεταβάλλει υπάρχουσες βάσεις. Αρχικά χρησιμοποιεί Development-only δοκιμαστικές πληρωμές.

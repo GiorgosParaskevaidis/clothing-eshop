@@ -1,0 +1,9 @@
+**/node_modules
+**/.next
+**/bin
+**/obj
+**/appsettings.Local.json
+**/.env.local
+.git
+.local
+**/test-results
