@@ -1,9 +1,31 @@
 {
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
-  "terminal.integrated.defaultProfile.windows": "PowerShell",
+  "terminal.integrated.defaultProfile.windows": "thesamenot: Command Prompt",
   "npm.packageManager": "npm",
-  "files.exclude": { "**/.next": true },
-  "search.exclude": { "**/.next": true, "**/node_modules": true, "**/test-results": true },
-  "files.watcherExclude": { "**/.next/**": true }
+  "files.exclude": {
+    "**/.next": true
+  },
+  "search.exclude": {
+    "**/.next": true,
+    "**/node_modules": true,
+    "**/test-results": true
+  },
+  "files.watcherExclude": {
+    "**/.next/**": true
+  },
+  "terminal.integrated.profiles.windows": {
+    "thesamenot: Command Prompt": {
+      "path": "${env:windir}\\System32\\cmd.exe",
+      "args": [
+        "/d"
+      ]
+    }
+  },
+  "terminal.integrated.automationProfile.windows": {
+    "path": "${env:windir}\\System32\\cmd.exe",
+    "args": [
+      "/d"
+    ]
+  }
 }
