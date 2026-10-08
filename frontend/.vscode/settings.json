@@ -1,0 +1,9 @@
+{
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "terminal.integrated.defaultProfile.windows": "PowerShell",
+  "npm.packageManager": "npm",
+  "files.exclude": { "**/.next": true },
+  "search.exclude": { "**/.next": true, "**/node_modules": true, "**/test-results": true },
+  "files.watcherExclude": { "**/.next/**": true }
+}
