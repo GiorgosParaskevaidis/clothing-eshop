@@ -1,10 +1,11 @@
+using Thesamenot.Api.Hosting;
 using Stripe;
 using Stripe.Checkout;
 
 namespace Thesamenot.Api;
 
 public sealed class Payments(StoreDatabase database,IConfiguration configuration,StoreOptions options,IWebHostEnvironment environment) {
-    public bool IsSimulation => environment.IsDevelopment() && options.PaymentMode=="Simulation";
+    public bool IsSimulation => environment.AllowsPaymentSimulation() && options.PaymentMode=="Simulation";
     public bool Ready => IsSimulation || (options.PaymentMode=="Stripe" && !string.IsNullOrWhiteSpace(configuration["Stripe:SecretKey"]) && !string.IsNullOrWhiteSpace(configuration["Stripe:WebhookSecret"]));
     private SessionService Sessions() => new(new StripeClient(configuration["Stripe:SecretKey"]));
     public async Task<object> Checkout(CheckoutRequest request) {

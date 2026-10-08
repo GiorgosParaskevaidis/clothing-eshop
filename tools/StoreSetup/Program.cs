@@ -8,6 +8,7 @@ string Prompt(string label,string fallback){Console.Write($"{label} [{fallback}]
 string Secret(string label){Console.Write(label+": ");if(Console.IsInputRedirected)return Console.ReadLine()??"";var value="";while(true){var key=Console.ReadKey(true);if(key.Key==ConsoleKey.Enter)break;if(key.Key==ConsoleKey.Backspace){if(value.Length>0)value=value[..^1];}else if(!char.IsControl(key.KeyChar))value+=key.KeyChar;}Console.WriteLine();return value;}
 var unattended=args.Contains("--non-interactive");
 var root=Path.GetFullPath(Argument("--root",Path.Combine(Directory.GetCurrentDirectory(),"..","..")));
+if(args.Contains("--preview-env")){await PreviewConfiguration.WriteAsync(root,Argument("--preview-credentials",Path.Combine(root,".local","filess-preview-credentials.json")));return;}
 var configPath=Path.Combine(root,"backend","Thesamenot.Api","appsettings.Local.json");
 if(File.Exists(configPath))throw new InvalidOperationException("Local configuration already exists. Back it up and rename it before running setup. No database changes were made.");
 var host=unattended?Argument("--host","127.0.0.1"):Prompt("MariaDB host","127.0.0.1");

@@ -1,13 +1,18 @@
+using Thesamenot.Api.Hosting;
+
 namespace Thesamenot.Api.Endpoints;
 
 public static class PaymentEndpoints
 {
-    public static IEndpointRouteBuilder MapPaymentEndpoints(this IEndpointRouteBuilder endpoints, bool isDevelopment)
+    public static IEndpointRouteBuilder MapPaymentEndpoints(this IEndpointRouteBuilder endpoints, IHostEnvironment environment)
     {
         var payments = endpoints.MapGroup("/api/payments");
-        payments.MapPost("/webhook", WebhookAsync);
+        if (!environment.IsStorePreview())
+        {
+            payments.MapPost("/webhook", WebhookAsync);
+        }
 
-        if (isDevelopment)
+        if (environment.AllowsPaymentSimulation())
         {
             payments.MapPost("/simulation", CompleteSimulationAsync).RequireRateLimiting("public");
         }

@@ -1,0 +1,49 @@
+# Δωρεάν online preview — Render + Filess.io
+
+Ένα Docker Web Service στο Render Free τρέχει Next.js στη δημόσια θύρα PORT και ASP.NET Core μόνο στο loopback:8080. Τα δεδομένα αποθηκεύονται στη χωριστή preview MariaDB του Filess.io. Η εφαρμογή μπορεί να ανοίγει από άλλον υπολογιστή χωρίς να λειτουργεί ο τοπικός υπολογιστής.
+
+Το περιβάλλον είναι **Preview**, με δοκιμαστικές πληρωμές, χωρίς Stripe keys/webhook και Secure admin cookie. Δεν προορίζεται για πραγματικές πωλήσεις ή πραγματικά στοιχεία πελατών.
+
+## Ρυθμίσεις Render
+
+- Manual New → Web Service, GitHub → GiorgosParaskevaidis/clothing-eshop, branch main.
+- Name: thesamenot-preview. Language: Docker. Region: Frankfurt.
+- Instance type: **Free, $0/month**. Δεν καταχωρίζουμε κάρτα και δεν ενεργοποιούμε paid add-ons.
+- Root Directory: κενό. Docker build context: repository root.
+- Dockerfile: deploy/preview/Dockerfile. Health check: /api/health. Auto-Deploy: Off όσο γίνεται η αρχική δοκιμή.
+- Εισαγωγή των ιδιωτικών environment settings από .local/render-preview.env. Το render.env.example περιέχει μόνο μη απόρρητο υπόδειγμα.
+- Το RENDER_EXTERNAL_URL δίνεται αυτόματα από το Render. Το Docker build το χρησιμοποιεί για NEXT_PUBLIC_SITE_URL και ο supervisor για Store:PublicUrl.
+
+Το API_INTERNAL_URL ενσωματώνεται στο Next.js build ως http://127.0.0.1:8080. Ο supervisor ξεκινά πρώτα το API, περιμένει health και μετά το frontend. Αν σταματήσει ένα παιδί, τερματίζει και το άλλο. Δεν περνά SQL/admin/Stripe secrets στο frontend process. Τα local settings, .env, .local, bin/obj και node_modules εξαιρούνται από το build context.
+
+## Βάση και TLS
+
+Η νέα βάση δημιουργείται μόνο στο Filess.io Shared Free. Η αρχική φόρμα ανέφερε 10.7.4, αλλά το πραγματικό SELECT VERSION() επέστρεψε 11.6.2-MariaDB-ubu2404 στις 09/10/2026. Η υπάρχουσα MariaDB 3306 και η τοπική thesamenot_test:13307 παραμένουν ανεξάρτητες.
+
+Ο server παρέχει self-signed certificate, με διαφορετικό Common Name από το hostname. Επειδή δεν εντοπίστηκε έμπιστο CA certificate στο panel, χρησιμοποιείται **ρητά εγκεκριμένο SHA-256 certificate pin**, μαζί με SslMode=Required. Το StoreConnectionFactory απαιτεί το ίδιο αποτύπωμα και έγκυρες ημερομηνίες σε κάθε TLS handshake. Δεν υπάρχει callback που δέχεται οποιοδήποτε πιστοποιητικό. Η αρχική εμπιστοσύνη του pin βασίζεται στο πιστοποιητικό που παρατηρήθηκε από το συγκεκριμένο provider endpoint· δεν είναι ανεξάρτητη επιβεβαίωση από CA. Αν αλλάξει το πιστοποιητικό, η σύνδεση αποτυγχάνει μέχρι να ελεγχθεί και να εγκριθεί το νέο pin.
+
+Η δημόσια ανάγνωση πιστοποιητικού δεν στέλνει SQL credentials:
+
+```powershell
+node deploy/preview/inspect-certificate.mjs HOST PORT .local/filess-certificate.json
+```
+
+Τα στοιχεία της νέας βάσης αποθηκεύονται τοπικά στο ignored .local/filess-preview-credentials.json (host, port, database, user, password). Το εργαλείο εξάγει μόνο configuration, χωρίς αλλαγές στη βάση:
+
+```powershell
+dotnet run --project tools/StoreSetup -- --root D:/Projects/clothing-eshop --preview-env
+```
+
+Δημιουργεί ξεχωριστό admin και τα .local/render-preview-settings.json, render-preview.env, render-preview-access.txt. Σε επανάληψη διατηρεί τον υπάρχοντα admin και το Database__Initialize. Δεν εμφανίζει passwords ή hashes στην έξοδο.
+
+Το schema εφαρμόζεται μόνο στη νέα preview βάση. Μετά την αρχική επιβεβαίωση, Database__Initialize=false. Το pool περιορίζεται σε τρεις συνδέσεις. Μην τρέχεις τα υπάρχοντα API integration tests στην online βάση: καθαρίζουν πίνακες και προορίζονται για νέα απομονωμένη test database.
+
+## Όρια και πρόσβαση
+
+- Το δημόσιο URL ανοίγει το κατάστημα. Η διαχείριση είναι στο /admin και χρησιμοποιεί τα ξεχωριστά στοιχεία από .local/render-preview-access.txt.
+- Το Render Free μπορεί να κοιμάται μετά από αδράνεια και η πρώτη επίσκεψη να αργεί. Η MariaDB Free έχει μικρό όριο αποθήκευσης· χρησιμοποιούμε μόνο demo δεδομένα.
+- Το container filesystem είναι προσωρινό. Δεν αποθηκεύουμε uploads ή τη βάση εκεί. Τα Data Protection keys δεν είναι μόνιμα: admin sessions μπορεί να χρειάζονται νέο login μετά από restart/deploy.
+- Απουσία κάρτας δεν ενεργοποιούμε χρεώσεις ή αναβάθμιση όταν εξαντληθούν τα δωρεάν όρια.
+- Η αρχική εμπειρία public demo, το Docker build και τα πραγματικά όρια μνήμης πρέπει να επιβεβαιωθούν στο Render· τοπικά builds/smoke δεν αποδεικνύουν ότι ολοκληρώθηκε το deployment.
+
+Πηγές: [Render Free](https://render.com/docs/free), [Docker στο Render](https://render.com/docs/docker), [MySqlConnector TLS options](https://mysqlconnector.net/connection-options/).

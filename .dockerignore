@@ -3,7 +3,10 @@
 **/bin
 **/obj
 **/appsettings.Local.json
-**/.env.local
+**/.env*
+!**/.env.example
+**/appsettings.*.Local.json
+**/.local
 .git
 .local
 **/test-results

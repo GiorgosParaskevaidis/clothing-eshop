@@ -9,9 +9,7 @@ namespace Thesamenot.Api;
 
 public sealed class StoreDatabase(IConfiguration configuration) {
     public async Task<MySqlConnection> Open() {
-        var value = configuration.GetConnectionString("Store");
-        if (string.IsNullOrWhiteSpace(value)) throw new StoreException(503, "The store is temporarily unavailable.");
-        var connection = new MySqlConnection(value);
+        var connection = StoreConnectionFactory.Create(configuration);
         await connection.OpenAsync();
         return connection;
     }

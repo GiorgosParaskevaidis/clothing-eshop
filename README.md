@@ -37,3 +37,8 @@
 
 
 Η τρέχουσα τοπική εγκατάσταση βρίσκεται στο `D:\Projects\clothing-eshop`. Για την υπάρχουσα ιδιωτική προεπισκόπηση, ξεκίνησε τη βάση με `./scripts/start-preview-database.ps1` πριν από frontend/backend. Δες την ενότητα 11 στις οδηγίες.
+
+
+## Online preview — 09/10/2026
+
+Προετοιμάστηκε δωρεάν Render Docker service με frontend και loopback-only backend, ξεχωριστό Preview environment και εξωτερική Filess.io MariaDB. Το πραγματικό database version είναι 11.6.2. Οι τοπικές βάσεις και IDE ρυθμίσεις παραμένουν ανεξάρτητες. Δες [deploy/preview/README.md](deploy/preview/README.md) για ρυθμίσεις, TLS certificate pin, ιδιωτικά admin στοιχεία και όρια. Η ολοκλήρωση του Render deployment καταγράφεται χωριστά μετά την επιβεβαίωσή του. Οι πληρωμές του preview είναι αποκλειστικά simulation.

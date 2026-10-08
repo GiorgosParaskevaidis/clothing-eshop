@@ -11,7 +11,7 @@ app.UseStorePipeline();
 app.MapStoreEndpoints();
 app.MapNewsletterEndpoints();
 app.MapCheckoutEndpoints();
-app.MapPaymentEndpoints(app.Environment.IsDevelopment());
+app.MapPaymentEndpoints(app.Environment);
 app.MapAdminEndpoints();
 
 await app.InitializeStoreDatabaseAsync();

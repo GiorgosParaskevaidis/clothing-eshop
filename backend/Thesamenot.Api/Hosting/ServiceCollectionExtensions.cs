@@ -18,7 +18,7 @@ public static class ServiceCollectionExtensions
         DefaultTypeMap.MatchNamesWithUnderscores = true;
 
         var options = configuration.GetSection("Store").Get<StoreOptions>() ?? new();
-        ValidateStoreOptions(options, environment);
+        ValidateStoreOptions(options, environment, configuration);
 
         services.AddSingleton(options);
         services.AddSingleton<StoreDatabase>();
@@ -72,11 +72,37 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    private static void ValidateStoreOptions(StoreOptions options, IWebHostEnvironment environment)
+    private static void ValidateStoreOptions(StoreOptions options, IWebHostEnvironment environment, IConfiguration configuration)
     {
-        if (!environment.IsDevelopment() && options.PaymentMode == "Simulation")
+        if (!environment.AllowsPaymentSimulation() && options.PaymentMode == "Simulation")
         {
-            throw new InvalidOperationException("Simulation payments are only allowed in Development.");
+            throw new InvalidOperationException("Simulation payments are only allowed in Development or Preview.");
+        }
+
+        if (environment.IsStorePreview())
+        {
+            if (options.PaymentMode != "Simulation")
+            {
+                throw new InvalidOperationException("Preview requires Simulation payments.");
+            }
+
+            if (!Uri.TryCreate(options.PublicUrl, UriKind.Absolute, out var publicUrl) ||
+                publicUrl.Scheme != Uri.UriSchemeHttps)
+            {
+                throw new InvalidOperationException("Preview requires an HTTPS public URL.");
+            }
+
+            if (string.IsNullOrWhiteSpace(configuration["Admin:Email"]) ||
+                string.IsNullOrWhiteSpace(configuration["Admin:PasswordHash"]))
+            {
+                throw new InvalidOperationException("Preview requires configured admin credentials.");
+            }
+
+            if (!string.IsNullOrWhiteSpace(configuration["Stripe:SecretKey"]) ||
+                !string.IsNullOrWhiteSpace(configuration["Stripe:WebhookSecret"]))
+            {
+                throw new InvalidOperationException("Preview must not contain Stripe credentials.");
+            }
         }
 
         if (options.ShippingCents < 0 || options.FreeShippingThresholdCents < 0)
