@@ -50,6 +50,7 @@ public sealed class OrderItem {
 public record CartLine(string VariantId, int Quantity);
 public record CheckoutRequest(string RequestKey, string Email, string Name, string Address, string City, string PostalCode, string Country, bool AcceptTerms, List<CartLine> Items);
 public record NewsletterRequest(string Email, bool Consent);
+public record UnsubscribeRequest(string Token);
 public record LoginRequest(string Email, string Password);
 public record ProductUpdate(string Name, string Description, int PriceCents, bool Active);
 public record StockUpdate(int Available, int Version);

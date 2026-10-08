@@ -12,6 +12,7 @@ Read README.md, ΟΔΗΓΙΕΣ.md, ΧΑΡΤΗΣ-ΑΡΧΕΙΩΝ.md and ΣΥΝΕΧ
 - For each change, identify the actual files and explain their purpose. The user explicitly wants to see which files are being edited.
 - Keep the Greek instructions and file map accurate when configuration or setup changes.
 - Prefer extending the agreed stack: Next.js/React/TypeScript, ASP.NET Core .NET 10, MariaDB with Dapper/MySqlConnector, Stripe.
+- Keep backend Minimal API routes in the focused Endpoints modules. Program.cs is only composition/startup; use Hosting for service/pipeline configuration, Middleware for request/error handling, Security for admin credential verification, Validation for request rules, and StoreDatabase for SQL.
 - The user runs the backend from Visual Studio and the frontend from VS Code, and uses Microsoft Edge.
 - The full VS Code workspace is Thesamenot.code-workspace. Its launch/tasks mirror the frontend-only .vscode configurations; update both when changing frontend startup behavior.
 

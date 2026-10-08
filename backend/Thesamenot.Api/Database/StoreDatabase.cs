@@ -15,6 +15,25 @@ public sealed class StoreDatabase(IConfiguration configuration) {
         await connection.OpenAsync();
         return connection;
     }
+    public async Task<string?> ServerVersion()
+    {
+        await using var db = await Open();
+        return await db.ExecuteScalarAsync<string>("SELECT VERSION()");
+    }
+
+    public async Task FulfillOrder(string id)
+    {
+        await using var db = await Open();
+        var updated = await db.ExecuteAsync(
+            "UPDATE orders SET status='fulfilled' WHERE id=@id AND status='paid'",
+            new { id });
+
+        if (updated != 1)
+        {
+            throw new StoreException(409, "Only paid orders can be marked shipped.");
+        }
+    }
+
     public async Task Initialize(string root) {
         await using var db = await Open();
         var sql = await File.ReadAllTextAsync(Path.Combine(root,"Database","schema.sql"));
