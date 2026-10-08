@@ -27,9 +27,11 @@
         "NEXT_PUBLIC_SITE_URL": "http://localhost:3000"
       },
       "serverReadyAction": {
-        "action": "openExternally",
+        "action": "debugWithEdge",
         "pattern": "- Local:.+(https?://[^\\s\\u001b]+)",
-        "uriFormat": "%s"
+        "uriFormat": "%s",
+        "killOnServerStop": true,
+        "webRoot": "${workspaceFolder}"
       },
       "internalConsoleOptions": "openOnSessionStart"
     }
