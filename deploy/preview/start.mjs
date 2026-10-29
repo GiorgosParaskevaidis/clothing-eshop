@@ -59,6 +59,9 @@ const api = launch('API', 'dotnet', ['Thesamenot.Api.dll'], apiDirectory, {
     ...process.env,
     ASPNETCORE_ENVIRONMENT: 'Preview',
     ASPNETCORE_URLS: apiUrl,
+    // Only the loopback Next.js proxy can reach this API. Honor its HTTPS
+    // forwarding so Secure antiforgery cookies work behind Render's TLS edge.
+    Proxy__KnownAddresses__0: '127.0.0.1',
     Store__PaymentMode: 'Simulation',
     Store__SalesEnabled: 'true',
     Store__PublicUrl: publicUrl.replace(/\/$/, ''),
