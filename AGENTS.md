@@ -4,6 +4,8 @@ This is the existing thesamenot clothing e-shop, located at D:\Projects\clothing
 
 ## Start here
 
+On 29/10/2026 the user requested preserving all current work, then a WordPress/WooCommerce migration plan for the existing Bluehost Basic. The custom application is committed and pushed at `22deba5`, tagged `pre-wordpress-2026-10-29`. Read `ΠΛΑΝΟ-WORDPRESS.md` for this new direction. Only planning has been requested so far; do not install/publish WordPress, buy licenses, or modify the existing Bluehost sites from this planning request. Future authorized WordPress development belongs under `wordpress/` in this repository, preserving the current `frontend/` and `backend/`. The existing-stack guidance below applies to the preserved custom implementation.
+
 Read README.md, ΟΔΗΓΙΕΣ.md, ΧΑΡΤΗΣ-ΑΡΧΕΙΩΝ.md and ΣΥΝΕΧΕΙΑ-ΕΡΓΟΥ.md before making changes. ΕΛΕΓΧΟΙ.md records what was actually verified and the remaining limitations. The frontend also has its own AGENTS.md with Next.js guidance.
 
 ## Collaboration
