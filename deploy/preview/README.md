@@ -1,5 +1,34 @@
 # Δωρεάν online preview — Render + Filess.io
 
+## Τρέχουσα έκδοση — 29/10/2026
+
+Κώδικας **c888f8a**, deployment **dep-dbhks3ifngtc73bu9h0g**, επιβεβαιωμένο **Live** στο Render, διάρκεια **53,0s**. Παραμένει Free/Frankfurt, χωρίς κάρτα, πληρωμένο storage ή add-on. Κατάστημα: https://thesamenot-preview.onrender.com · checkout: https://thesamenot-preview.onrender.com/checkout · admin: https://thesamenot-preview.onrender.com/admin.
+
+- Next **16.4.3**, Ελληνικά/English και οι νέες σελίδες καταλόγου/admin. Δημόσιο checkout μόνο με Revolut κατάθεση / αντικαταβολή. Η κατάθεση εμφανίζεται αλλά είναι **ανενεργή**, χωρίς δικαιούχο/IBAN. Οι παραγγελίες είναι αποκλειστικά δοκιμαστικές και δεν αποστέλλονται.
+- Το `Store:PaymentMode=Simulation` παραμένει ως υποχρεωτικό Preview configuration/ιστορική συμβατότητα. Δεν επαναφέρει παλιό simulated/card δημόσιο checkout και δεν επιτρέπει να σημειωθεί νέα COD παραγγελία πληρωμένη από το simulation endpoint.
+- Η χωριστή Filess βάση έχει πλέον **36 πίνακες / 13 applied migrations**. Πριν το online DDL έγινε κρυπτογραφημένο backup, απομονωμένη τοπική SQL επαναφορά με ίδια collation και σύγκριση fingerprints. Οι migrations δοκιμάστηκαν στο αντίγραφο και εφαρμόστηκαν μετά από προσωρινή παύση της υπηρεσίας και επανέλεγχο της αμετάβλητης πηγής. Διατηρήθηκαν τα δύο παλιά demo orders.
+- Ιδιωτικό recovery set: `.local/backups/preview-20261029-131915-9b1c9971`, με `database.sql.protected`, `verification.json`, `migration-result.json`. Η προστασία DPAPI απαιτεί τον κατάλληλο Windows λογαριασμό/μηχάνημα· δεν αποτελεί ανεξάρτητο offsite recovery.
+- Το Filess άλλαξε self-signed πιστοποιητικό. Ο χρήστης ενέκρινε ρητά το νέο SHA-256 στις 29/10. Ενημερώθηκαν το pin και το `Database__Initialize=false`, διατηρώντας SQL/admin credentials. Η ακριβής τιμή και τα backups configuration είναι στα ignored preview αρχεία. Δεν απενεργοποιήθηκε η TLS επαλήθευση.
+- Το `start.mjs` προσθέτει **μόνο** `Proxy__KnownAddresses__0=127.0.0.1`: ο loopback-only backend αναγνωρίζει HTTPS από τον εσωτερικό Next proxy, ώστε το CSRF endpoint να παράγει Secure/HttpOnly cookie. HTTP και ξένο Origin εξακολουθούν να απορρίπτονται.
+
+### Όρια δωρεάν demo
+
+**Auth:Enabled=false**, **Email:Mode=None**, **Media:Mode=Disabled**. Διατηρήθηκε ο παλιός ξεχωριστός admin (`.local/render-preview-access.txt`), χωρίς bootstrap ή μεταφορά προσωπικών credentials/MFA/SMTP. Λειτουργούν guest checkout και legacy demo admin. Δεν ενεργοποιήθηκαν customer accounts, MFA-dependent ενέργειες αλλαγής τραπεζικών στοιχείων/καταγραφής χρημάτων ή uploads. Οι εργασίες email δημιουργούνται αλλά **δεν αποστέλλονται σε inbox**. Δεν χρησιμοποιούμε πραγματικά προσωπικά δεδομένα.
+
+Το default Data Protection key ring του Free container είναι προσωρινό. Restart/redeploy μπορεί να ακυρώσει demo sessions/guest cookies ή να κάνει παλιές κρυπτογραφημένες εργασίες μη αναγνώσιμες. Αυτό δεν είναι υποδομή για πραγματικούς λογαριασμούς/MFA/email. Τα production safeguards δεν άλλαξαν. Η βάση παραμένει στον χωριστό πάροχο με τα δωρεάν όριά του.
+
+### Επαληθεύσεις
+
+Το Docker build πέρασε: .NET publish, Next production build/TypeScript και `npm ci` με 0 vulnerabilities. Το πρώτο deploy απέτυχε στο παλιό pin. Μετά την επαληθευμένη αποθήκευση ανέβηκε το e19483c· ο οπτικός έλεγχος εντόπισε το HTTPS/CSRF ζήτημα και η διορθωμένη έκδοση c888f8a ανέβηκε επιτυχώς.
+
+Πέρασαν **19 online API/SSR checks** πριν τη μοναδική προσθήκη proxy configuration: health, προϊόντα/εικόνα, EL/EN SSR, δύο μέθοδοι/ανενεργή κατάθεση, προστασία admin, παλιό login/ασφαλές cookie, admin λίστες/ανάγνωση πληρωμών, guest context, μία test COD παραγγελία, unpaid receipt, retry χωρίς δεύτερη παραγγελία και απόρριψη card/deposit/simulation-paid. Δημιουργήθηκε η **TSN-BD3754243C934521**, «PREVIEW TEST - NO DISPATCH», ένα Ghost Hoodie S. Δεν είναι πώληση και καταναλώνει ένα demo τεμάχιο. Read-only SQL επιβεβαίωσε δύο buyer/admin creation email jobs.
+
+Πέρασαν **5 απομονωμένα local Preview checks** για τη διόρθωση: startup, HTTPS CSRF, Secure/HttpOnly cookie, HTTP rejection και foreign-Origin rejection. Μετά το τελικό deployment επαληθεύτηκαν online CSRF **200** με Secure cookie και foreign Origin **403**. Στον Edge ελέγχθηκαν πραγματικό καλάθι, EL/EN, ετικέτες πληρωμών, quote και σύνολο €46 (€42 + €4), χωρίς νέο browser submit. Δεν εκτελέστηκε destructive fixture στην online βάση. Reports: `.local/preview-online-smoke-report.json`, `.local/preview-proxy-test/result.json`. Αναλυτικά στο `ΕΛΕΓΧΟΙ.md`.
+
+## Ιστορική εγκατάσταση — 09/10 και σημειώσεις 19/10
+
+Οι παρακάτω ενότητες διατηρούν το ιστορικό. Για το τρέχον schema, πληρωμές και όρια ισχύει η παραπάνω ενημέρωση 29/10.
+
 Ένα Docker Web Service στο Render Free τρέχει Next.js στη δημόσια θύρα PORT και ASP.NET Core μόνο στο loopback:8080. Τα δεδομένα αποθηκεύονται στη χωριστή preview MariaDB του Filess.io. Η εφαρμογή μπορεί να ανοίγει από άλλον υπολογιστή χωρίς να λειτουργεί ο τοπικός υπολογιστής.
 
 Το περιβάλλον είναι **Preview**, με δοκιμαστικές πληρωμές, χωρίς Stripe keys/webhook και Secure admin cookie. Δεν προορίζεται για πραγματικές πωλήσεις ή πραγματικά στοιχεία πελατών.
