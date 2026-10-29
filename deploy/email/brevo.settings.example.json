@@ -1,0 +1,10 @@
+{
+  "Email": {
+    "Mode": "Smtp",
+    "Host": "smtp-relay.brevo.com",
+    "Port": 587,
+    "FromAddress": "REPLACE_WITH_VERIFIED_SENDER_EMAIL",
+    "Username": "REPLACE_WITH_BREVO_SMTP_LOGIN",
+    "Password": "REPLACE_WITH_BREVO_SMTP_KEY"
+  }
+}

@@ -6,30 +6,20 @@
       "type": "node",
       "request": "launch",
       "program": "${workspaceFolder}/node_modules/next/dist/bin/next",
-      "args": [
-        "dev",
-        "--hostname",
-        "127.0.0.1",
-        "--port",
-        "3000"
-      ],
+      "args": ["dev", "--hostname", "127.0.0.1", "--port", "3000"],
       "cwd": "${workspaceFolder}",
-      "runtimeArgs": [
-        "--inspect"
-      ],
+      "runtimeArgs": ["--inspect"],
       "console": "internalConsole",
       "outputCapture": "std",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "env": {
         "API_INTERNAL_URL": "http://127.0.0.1:5080",
         "NEXT_PUBLIC_SITE_URL": "http://localhost:3000"
       },
       "serverReadyAction": {
         "action": "openExternally",
-        "pattern": "- Local:.+(https?://[^\\s\\u001b]+)",
-        "uriFormat": "%s"
+        "pattern": "- Local:.+https?://[^\\s\\u001b]+:(\\d+)",
+        "uriFormat": "http://localhost:%s"
       },
       "internalConsoleOptions": "openOnSessionStart"
     }

@@ -20,8 +20,8 @@ public sealed class AdminAuthenticationService(IConfiguration configuration)
         }
 
         var identity = new ClaimsIdentity(
-            [new Claim(ClaimTypes.Name, email!)],
-            CookieAuthenticationDefaults.AuthenticationScheme);
+            [new Claim(ClaimTypes.Name, email!), new Claim(ClaimTypes.Role, "Admin"), new Claim("amr", "demo")],
+            AuthorizationPolicies.LegacyScheme);
         return new ClaimsPrincipal(identity);
     }
 }

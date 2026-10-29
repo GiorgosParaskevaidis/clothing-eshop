@@ -2,6 +2,8 @@ using System.Security.Cryptography;
 using System.Text.Json;
 using Microsoft.AspNetCore.Identity;
 using MySqlConnector;
+using Microsoft.Extensions.Configuration;
+using Thesamenot.Api;
 
 string Argument(string name,string fallback){var i=Array.IndexOf(args,name);return i>=0&&i+1<args.Length?args[i+1]:fallback;}
 string Prompt(string label,string fallback){Console.Write($"{label} [{fallback}]: ");var value=Console.ReadLine();return string.IsNullOrWhiteSpace(value)?fallback:value;}
@@ -27,6 +29,10 @@ await using(var create=new MySqlCommand($"CREATE DATABASE `{dbName}` CHARACTER S
 await db.ChangeDatabaseAsync(dbName);
 var schema=await File.ReadAllTextAsync(Path.Combine(root,"backend","Thesamenot.Api","Database","schema.sql"));
 await using(var command=new MySqlCommand(schema,db))await command.ExecuteNonQueryAsync();
+// Schema changes belong to this explicit setup workflow, never to application startup.
+connectionString.Database=dbName;
+var migrationSettings=new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string,string?>{{"ConnectionStrings:Store",connectionString.ConnectionString}}).Build();
+await new StoreDatabase(migrationSettings).Migrate(Path.Combine(root,"backend","Thesamenot.Api"));
 var appUser=dbName+"_app";var appPassword=Convert.ToHexString(RandomNumberGenerator.GetBytes(24));
 // Account is confined to loopback, and can access only this newly created database.
 foreach(var accountHost in new[]{"localhost","127.0.0.1"}){
@@ -37,7 +43,7 @@ connectionString.UserID=appUser;connectionString.Password=appPassword;connection
 var settings=new {
     ConnectionStrings=new {Store=connectionString.ConnectionString},
     Admin=new {Email=email,PasswordHash=new PasswordHasher<string>().HashPassword(email,adminPassword)},
-    Store=new {PublicUrl=Argument("--public-url","http://localhost:3000"),SalesEnabled=true,PaymentMode="Simulation"}
+    Store=new {PublicUrl=Argument("--public-url","http://localhost:3000"),SalesEnabled=true,PaymentMode="Manual"}
 };
 await File.WriteAllTextAsync(configPath,JsonSerializer.Serialize(settings,new JsonSerializerOptions {WriteIndented=true}));
-Console.WriteLine($"Created database {dbName} and local configuration. Admin email: {email}. Passwords were not printed. Simulation is Development-only.");
+Console.WriteLine($"Created database {dbName} and local configuration. Admin email: {email}. Passwords were not printed. Checkout supports bank transfer to Revolut and cash on delivery.");

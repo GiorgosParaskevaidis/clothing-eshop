@@ -1,6 +1,31 @@
 {
-  "name":"thesamenot-store","version":"0.1.0","private":true,
-  "scripts":{"dev":"next dev --hostname 127.0.0.1","build":"next build","start":"node scripts/start-production.mjs","typecheck":"tsc --noEmit","test:e2e":"playwright test","test:api":"node --test tests-api/checkout.test.mjs"},
-  "dependencies":{"next":"16.4.0","react":"19.3.0","react-dom":"19.3.0"},
-  "devDependencies":{"typescript":"^5.9.3","@types/node":"^22.18.0","@types/react":"^19.0.0","@types/react-dom":"^19.0.0","@playwright/test":"^1.56.1","mysql2":"^3.15.0"}
+  "name": "thesamenot-store",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --hostname 127.0.0.1",
+    "build": "next build",
+    "start": "node scripts/start-production.mjs",
+    "typecheck": "tsc --noEmit",
+    "test:e2e": "playwright test",
+    "test:api": "node --test tests-api/checkout.test.mjs",
+    "format": "prettier --write \"{app,components,lib}/**/*.{ts,tsx,css}\" package.json .prettierrc.json \".vscode/{settings,extensions}.json\" \"../*.code-workspace\"",
+    "format:check": "prettier --check \"{app,components,lib}/**/*.{ts,tsx,css}\" package.json .prettierrc.json \".vscode/{settings,extensions}.json\" \"../*.code-workspace\""
+  },
+  "dependencies": {
+    "next": "16.4.3",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "sharp": "0.35.5"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
+    "@playwright/test": "^1.56.1",
+    "@types/node": "^22.18.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "mysql2": "^3.15.0",
+    "prettier": "3.9.10",
+    "typescript": "^5.9.3"
+  }
 }

@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{07C2787E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreSetup", "tools\StoreSetup\StoreSetup.csproj", "{195A39F3-6694-4067-859E-71061D558FB0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreMaintenance", "tools\StoreMaintenance\StoreMaintenance.csproj", "{94292AE2-F657-4ADF-9824-546B9292D5EB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,18 @@ Global
 		{195A39F3-6694-4067-859E-71061D558FB0}.Release|x64.Build.0 = Release|Any CPU
 		{195A39F3-6694-4067-859E-71061D558FB0}.Release|x86.ActiveCfg = Release|Any CPU
 		{195A39F3-6694-4067-859E-71061D558FB0}.Release|x86.Build.0 = Release|Any CPU
+		{94292AE2-F657-4ADF-9824-546B9292D5EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94292AE2-F657-4ADF-9824-546B9292D5EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94292AE2-F657-4ADF-9824-546B9292D5EB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{94292AE2-F657-4ADF-9824-546B9292D5EB}.Debug|x64.Build.0 = Debug|Any CPU
+		{94292AE2-F657-4ADF-9824-546B9292D5EB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{94292AE2-F657-4ADF-9824-546B9292D5EB}.Debug|x86.Build.0 = Debug|Any CPU
+		{94292AE2-F657-4ADF-9824-546B9292D5EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94292AE2-F657-4ADF-9824-546B9292D5EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94292AE2-F657-4ADF-9824-546B9292D5EB}.Release|x64.ActiveCfg = Release|Any CPU
+		{94292AE2-F657-4ADF-9824-546B9292D5EB}.Release|x64.Build.0 = Release|Any CPU
+		{94292AE2-F657-4ADF-9824-546B9292D5EB}.Release|x86.ActiveCfg = Release|Any CPU
+		{94292AE2-F657-4ADF-9824-546B9292D5EB}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -52,5 +66,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{E56866A5-D820-4D24-9AC1-6C05DC82FAE3} = {1AE8ACA6-933B-BF2A-3671-3E2EAC007D16}
 		{195A39F3-6694-4067-859E-71061D558FB0} = {07C2787E-EAC7-C090-1BA3-A61EC2A24D84}
+		{94292AE2-F657-4ADF-9824-546B9292D5EB} = {07C2787E-EAC7-C090-1BA3-A61EC2A24D84}
 	EndGlobalSection
 EndGlobal

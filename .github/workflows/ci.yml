@@ -3,6 +3,17 @@ on: [push, pull_request]
 jobs:
   verify:
     runs-on: ubuntu-latest
+    services:
+      mariadb:
+        image: mariadb:10.11
+        env:
+          MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: "1"
+          MARIADB_ROOT_HOST: "%"
+        ports:
+          - 13307:3306
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval=5s --health-timeout=5s --health-retries=20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v4
@@ -16,5 +27,11 @@ jobs:
           cache-dependency-path: frontend/package-lock.json
       - run: npm ci
         working-directory: frontend
-      - run: npm run build
+      - run: npm audit --audit-level=moderate
         working-directory: frontend
+      - run: node scripts/check-dependencies.mjs
+      - run: node scripts/check-source-secrets.mjs
+      - run: npx playwright install --with-deps chromium
+        working-directory: frontend
+      - run: node scripts/test-phase1.mjs --browser
+      - run: node scripts/test-setup.mjs

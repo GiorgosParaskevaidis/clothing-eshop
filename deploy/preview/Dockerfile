@@ -21,6 +21,8 @@ COPY --from=frontend-build /usr/local/bin/node /usr/local/bin/node
 COPY --from=frontend-build --chown=app:app /build/frontend/.next/standalone /app/web
 COPY --from=frontend-build --chown=app:app /build/frontend/.next/static /app/web/.next/static
 COPY --from=frontend-build --chown=app:app /build/frontend/public /app/web/public
+COPY --from=frontend-build --chown=app:app /build/frontend/node_modules/sharp /app/web/node_modules/sharp
+COPY --from=frontend-build --chown=app:app /build/frontend/node_modules/@img /app/web/node_modules/@img
 COPY --from=backend-build --chown=app:app /publish /app/api
 COPY --chown=app:app deploy/preview/start.mjs /app/start.mjs
 ENV NODE_ENV=production \
@@ -29,6 +31,7 @@ ENV NODE_ENV=production \
     DOTNET_GCHeapHardLimit=0xC000000 \
     NODE_OPTIONS=--max-old-space-size=192 \
     MALLOC_ARENA_MAX=2
+ENV Media__Mode=Disabled Media__SharpModule=/app/web/node_modules/sharp
 USER app
 EXPOSE 10000
 CMD ["node", "/app/start.mjs"]

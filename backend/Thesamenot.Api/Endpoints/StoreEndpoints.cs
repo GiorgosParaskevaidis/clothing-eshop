@@ -13,22 +13,33 @@ public static class StoreEndpoints
 
     private static async Task<IResult> GetHealthAsync(StoreDatabase database)
     {
-        var version = await database.ServerVersion();
-        return Results.Ok(new { status = "healthy", database = version });
+        await database.ServerVersion();
+        return Results.Ok(new { status = "healthy" });
     }
 
-    private static IResult GetStore(StoreOptions options, Payments payments) => Results.Ok(new
+    private static async Task<IResult> GetStore(StoreOptions options, StoreDatabase database, IWebHostEnvironment environment)
     {
-        brand = "thesamenot",
-        options.DropOpensAt,
-        options.SalesEnabled,
-        options.ShippingCents,
-        options.FreeShippingThresholdCents,
-        options.InstagramUrl,
-        options.ContactEmail,
-        checkoutAvailable = payments.Ready,
-        simulation = payments.IsSimulation
-    });
+        var shipping = await database.Shipping();
+        var payments = await database.PaymentSettings();
+        return Results.Ok(new
+        {
+            brand = "thesamenot",
+            options.DropOpensAt,
+            options.SalesEnabled,
+            shippingCents = shipping.CostCents,
+            freeShippingThresholdCents = shipping.FreeFromCents,
+            options.InstagramUrl,
+            options.ContactEmail,
+            checkoutAvailable = true,
+            simulation = false,
+            preview = environment.IsEnvironment("Preview"),
+            paymentMethods = new[] {
+                new { id = ManualPaymentMethods.BankTransfer, name = "Bank transfer to Revolut", available = ManualPaymentMethods.BankReady(payments),
+                    unavailableReason = !ManualPaymentMethods.BankDetailsValid(payments) ? "NotConfigured" : !payments.BankTransferEnabled ? "Disabled" : (string?)null },
+                new { id = ManualPaymentMethods.CashOnDelivery, name = "Cash on delivery", available = true, unavailableReason = (string?)null }
+            }
+        });
+    }
 
     private static Task<List<Product>> GetProductsAsync(StoreDatabase database) => database.Products();
 }

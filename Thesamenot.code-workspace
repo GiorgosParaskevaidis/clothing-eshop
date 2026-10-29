@@ -1,41 +1,67 @@
 {
-  "folders": [
-    {
-      "name": "thesamenot — ολόκληρο το project",
-      "path": "."
-    }
-  ],
+  "folders": [{ "name": "thesamenot — ολόκληρο το project", "path": "." }],
   "settings": {
     "typescript.tsdk": "frontend/node_modules/typescript/lib",
     "typescript.enablePromptUseWorkspaceTsdk": true,
     "terminal.integrated.defaultProfile.windows": "thesamenot: Command Prompt",
     "npm.packageManager": "npm",
-    "files.exclude": {
-      "**/.next": true
-    },
+    "files.exclude": { "**/.next": true },
     "search.exclude": {
       "**/.next": true,
       "**/node_modules": true,
-      "**/test-results": true
+      "**/test-results": true,
     },
-    "files.watcherExclude": {
-      "**/.next/**": true
-    },
+    "files.watcherExclude": { "**/.next/**": true },
     "terminal.integrated.profiles.windows": {
       "thesamenot: Command Prompt": {
         "path": "${env:windir}\\System32\\cmd.exe",
-        "args": [
-          "/d"
-        ]
-      }
+        "args": ["/d"],
+      },
     },
     "terminal.integrated.automationProfile.windows": {
       "path": "${env:windir}\\System32\\cmd.exe",
-      "args": [
-        "/d"
-      ]
+      "args": ["/d"],
     },
-    "terminal.integrated.cwd": "${workspaceFolder}/frontend"
+    "terminal.integrated.cwd": "${workspaceFolder}/frontend",
+    "editor.wordWrap": "on",
+    "editor.bracketPairColorization.enabled": true,
+    "editor.guides.bracketPairs": true,
+    "editor.guides.indentation": true,
+    "[typescript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+      "editor.formatOnSave": true,
+      "editor.tabSize": 2,
+      "editor.insertSpaces": true,
+      "editor.detectIndentation": false,
+    },
+    "[typescriptreact]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+      "editor.formatOnSave": true,
+      "editor.tabSize": 2,
+      "editor.insertSpaces": true,
+      "editor.detectIndentation": false,
+    },
+    "[css]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+      "editor.formatOnSave": true,
+      "editor.tabSize": 2,
+      "editor.insertSpaces": true,
+      "editor.detectIndentation": false,
+    },
+    "[json]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+      "editor.formatOnSave": true,
+      "editor.tabSize": 2,
+      "editor.insertSpaces": true,
+      "editor.detectIndentation": false,
+    },
+    "[jsonc]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+      "editor.formatOnSave": true,
+      "editor.tabSize": 2,
+      "editor.insertSpaces": true,
+      "editor.detectIndentation": false,
+    },
   },
   "launch": {
     "version": "0.2.0",
@@ -45,34 +71,24 @@
         "type": "node",
         "request": "launch",
         "program": "${workspaceFolder}/frontend/node_modules/next/dist/bin/next",
-        "args": [
-          "dev",
-          "--hostname",
-          "127.0.0.1",
-          "--port",
-          "3000"
-        ],
+        "args": ["dev", "--hostname", "127.0.0.1", "--port", "3000"],
         "cwd": "${workspaceFolder}/frontend",
-        "runtimeArgs": [
-          "--inspect"
-        ],
+        "runtimeArgs": ["--inspect"],
         "console": "internalConsole",
         "outputCapture": "std",
-        "skipFiles": [
-          "<node_internals>/**"
-        ],
+        "skipFiles": ["<node_internals>/**"],
         "env": {
           "API_INTERNAL_URL": "http://127.0.0.1:5080",
-          "NEXT_PUBLIC_SITE_URL": "http://localhost:3000"
+          "NEXT_PUBLIC_SITE_URL": "http://localhost:3000",
         },
         "serverReadyAction": {
           "action": "openExternally",
-          "pattern": "- Local:.+(https?://[^\\s\\u001b]+)",
-          "uriFormat": "%s"
+          "pattern": "- Local:.+https?://[^\\s\\u001b]+:(\\d+)",
+          "uriFormat": "http://localhost:%s",
         },
-        "internalConsoleOptions": "openOnSessionStart"
-      }
-    ]
+        "internalConsoleOptions": "openOnSessionStart",
+      },
+    ],
   },
   "tasks": {
     "version": "2.0.0",
@@ -81,52 +97,34 @@
         "label": "Frontend: development server",
         "type": "shell",
         "command": "npm.cmd",
-        "args": [
-          "run",
-          "dev",
-          "--",
-          "--port",
-          "3000"
-        ],
-        "options": {
-          "cwd": "${workspaceFolder}/frontend"
-        },
+        "args": ["run", "dev", "--", "--port", "3000"],
+        "options": { "cwd": "${workspaceFolder}/frontend" },
         "problemMatcher": [],
-        "presentation": {
-          "reveal": "always",
-          "panel": "dedicated"
-        }
+        "presentation": { "reveal": "always", "panel": "dedicated" },
       },
       {
         "label": "Frontend: typecheck",
         "type": "shell",
         "command": "npm.cmd",
-        "args": [
-          "run",
-          "typecheck"
-        ],
-        "options": {
-          "cwd": "${workspaceFolder}/frontend"
-        },
-        "group": {
-          "kind": "build",
-          "isDefault": true
-        },
-        "problemMatcher": "$tsc"
+        "args": ["run", "typecheck"],
+        "options": { "cwd": "${workspaceFolder}/frontend" },
+        "group": { "kind": "build", "isDefault": true },
+        "problemMatcher": "$tsc",
       },
       {
         "label": "Frontend: production build",
         "type": "shell",
         "command": "npm.cmd",
-        "args": [
-          "run",
-          "build"
-        ],
-        "options": {
-          "cwd": "${workspaceFolder}/frontend"
-        },
-        "problemMatcher": []
-      }
-    ]
-  }
+        "args": ["run", "build"],
+        "options": { "cwd": "${workspaceFolder}/frontend" },
+        "problemMatcher": [],
+      },
+    ],
+  },
+  "extensions": {
+    "recommendations": [
+      "esbenp.prettier-vscode",
+      "vincaslt.highlight-matching-tag",
+    ],
+  },
 }

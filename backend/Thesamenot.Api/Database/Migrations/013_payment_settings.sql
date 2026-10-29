@@ -1,0 +1,10 @@
+CREATE TABLE payment_settings (
+ id INT PRIMARY KEY CHECK(id=1),
+ bank_transfer_enabled BOOLEAN NOT NULL DEFAULT FALSE,
+ account_holder VARCHAR(140) NOT NULL DEFAULT '',
+ iban VARCHAR(34) NOT NULL DEFAULT '',
+ bic VARCHAR(11) NOT NULL DEFAULT '',
+ version INT NOT NULL DEFAULT 0,
+ updated_utc DATETIME(6) NOT NULL DEFAULT UTC_TIMESTAMP(6)
+) ENGINE=InnoDB;
+INSERT INTO payment_settings(id) VALUES(1);

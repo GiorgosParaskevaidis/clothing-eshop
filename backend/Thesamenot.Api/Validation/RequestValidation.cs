@@ -21,11 +21,26 @@ internal static class RequestValidation
             request.Items.All(item => HasText(item.VariantId, 60) && item.Quantity is >= 1 and <= 10) &&
             request.Items.Select(item => item.VariantId).Distinct().Count() == request.Items.Count;
 
-        if (!Guid.TryParse(request.RequestKey, out _) || !request.AcceptTerms ||
+        if (request.Phone is null || request.Phone.Length > 32 ||
+            !Guid.TryParse(request.RequestKey, out _) || !request.AcceptTerms ||
             !validContact || !validAddress || !validItems)
         {
             throw new StoreException(400, "Check your contact details, shipping address, terms and basket quantities.");
         }
+        if (!ManualPaymentMethods.IsManual(request.PaymentMethod))
+            throw new StoreException(400, "Choose bank transfer to Revolut or cash on delivery.");
+    }
+
+    public static void ValidateManualPayment(ManualPaymentUpdate request)
+    {
+        if (request.AmountCents < 1 || string.IsNullOrWhiteSpace(request.Reference) || request.Reference.Length > 300)
+            throw new StoreException(400, "Enter the amount received and the bank or courier collection reference.");
+    }
+
+    public static void ValidateManualCancellation(ManualOrderCancellation request)
+    {
+        if (string.IsNullOrWhiteSpace(request.Reason) || request.Reason.Length > 300)
+            throw new StoreException(400, "Enter a cancellation reason.");
     }
 
     public static void ValidateProduct(ProductUpdate request)

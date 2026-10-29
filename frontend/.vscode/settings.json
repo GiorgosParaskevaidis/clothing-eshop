@@ -3,29 +3,53 @@
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "terminal.integrated.defaultProfile.windows": "thesamenot: Command Prompt",
   "npm.packageManager": "npm",
-  "files.exclude": {
-    "**/.next": true
-  },
-  "search.exclude": {
-    "**/.next": true,
-    "**/node_modules": true,
-    "**/test-results": true
-  },
-  "files.watcherExclude": {
-    "**/.next/**": true
-  },
+  "files.exclude": { "**/.next": true },
+  "search.exclude": { "**/.next": true, "**/node_modules": true, "**/test-results": true },
+  "files.watcherExclude": { "**/.next/**": true },
   "terminal.integrated.profiles.windows": {
-    "thesamenot: Command Prompt": {
-      "path": "${env:windir}\\System32\\cmd.exe",
-      "args": [
-        "/d"
-      ]
-    }
+    "thesamenot: Command Prompt": { "path": "${env:windir}\\System32\\cmd.exe", "args": ["/d"] }
   },
   "terminal.integrated.automationProfile.windows": {
     "path": "${env:windir}\\System32\\cmd.exe",
-    "args": [
-      "/d"
-    ]
+    "args": ["/d"]
+  },
+  "editor.wordWrap": "on",
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": true,
+  "editor.guides.indentation": true,
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": false
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": false
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": false
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": false
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": false
   }
 }

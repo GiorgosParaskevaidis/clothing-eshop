@@ -1,3 +1,11 @@
 import { Suspense } from 'react';
 import { ReceiptView } from '@/components/receipt';
-export default function Simulation(){return <Suspense fallback={<p>Loading order…</p>}><ReceiptView simulation/></Suspense>;}
+import { serverTranslator } from '@/lib/server-language';
+export default async function Simulation() {
+  const t = await serverTranslator();
+  return (
+    <Suspense fallback={<p>{t('Loading order…')}</p>}>
+      <ReceiptView simulation />
+    </Suspense>
+  );
+}

@@ -4,6 +4,8 @@
 
 Το περιβάλλον είναι **Preview**, με δοκιμαστικές πληρωμές, χωρίς Stripe keys/webhook και Secure admin cookie. Δεν προορίζεται για πραγματικές πωλήσεις ή πραγματικά στοιχεία πελατών.
 
+Οι φάσεις 0/1 του νέου database authentication δοκιμάστηκαν τοπικά στις 13/10/2026. Δεν έγινε νέο deploy ή online migration. Το δωρεάν demo διατηρεί Auth:Enabled=false και το ξεχωριστό config-only admin. Μελλοντική ενεργοποίηση database accounts απαιτεί migrations/bootstrap, SMTP και μόνιμο προστατευμένο key ring· το προσωρινό Render filesystem δεν επαρκεί για MFA secrets. Δεν εγκρίθηκε paid storage ή άλλη χρέωση.
+
 ## Ρυθμίσεις Render
 
 - Manual New → Web Service, GitHub → GiorgosParaskevaidis/clothing-eshop, branch main.
@@ -48,6 +50,12 @@ dotnet run --project tools/StoreSetup -- --root D:/Projects/clothing-eshop --pre
 
 Πηγές: [Render Free](https://render.com/docs/free), [Docker στο Render](https://render.com/docs/docker), [MySqlConnector TLS options](https://mysqlconnector.net/connection-options/).
 ## Επιβεβαιωμένο deployment
+
+Σημείωση 19/10: το παρακάτω περιγράφει το παλιό πραγματικά δημοσιευμένο demo, όχι τη νέα τοπική έκδοση φάσεων 2–5. Δεν έγινε νέο push/deploy ή αλλαγή online δεδομένων. Auto-Deploy παραμένει Off.
+
+Ο νέος κώδικας απαιτεί όλες τις migrations 001–012 μέσω χωριστού maintenance εργαλείου πριν runtime εκκίνηση. Database__Initialize=true δεν υποστηρίζεται πλέον. Πριν μελλοντικό manual deploy: online backup/restore rehearsal, έλεγχος DDL πρόσβασης, schema/key/mail σχέδιο και ξεχωριστή έγκριση διάθεσης. Μην χρησιμοποιήσεις το local destructive harness στη Filess βάση.
+
+Το Dockerfile περιλαμβάνει Sharp αλλά Media__Mode=Disabled: χωρίς μόνιμο object storage δεν επιτρέπονται uploads. Νέα database accounts/MFA και κρυπτογραφημένο outbox απαιτούν μόνιμα προστατευμένα keys/SMTP. Το παλιό Auth=false preview παραμένει μόνο demo· νέα production λειτουργία δεν ενεργοποιείται από αυτό το Dockerfile. Το νέο Docker build δεν έχει εκτελεστεί τοπικά/στο Render.
 
 - Κατάστημα: https://thesamenot-preview.onrender.com
 - Διαχείριση: https://thesamenot-preview.onrender.com/admin

@@ -37,7 +37,7 @@ internal static class PreviewConfiguration
             ["ConnectionStrings__Store"] = connection.ConnectionString,
             ["Admin__Email"] = email,
             ["Admin__PasswordHash"] = new PasswordHasher<string>().HashPassword(email,password),
-            ["Database__Initialize"] = "true",
+            ["Database__Initialize"] = "false",
             ["ASPNETCORE_ENVIRONMENT"] = "Preview"
         };
         if (File.Exists(settingsPath))
@@ -45,7 +45,7 @@ internal static class PreviewConfiguration
             var existing = JsonSerializer.Deserialize<Dictionary<string,string>>(await File.ReadAllTextAsync(settingsPath))!;
             settings["Admin__Email"] = existing["Admin__Email"];
             settings["Admin__PasswordHash"] = existing["Admin__PasswordHash"];
-            settings["Database__Initialize"] = existing["Database__Initialize"];
+            settings["Database__Initialize"] = "false";
         }
         if (certificatePin is not null) settings["Database__ServerCertificateSha256"] = certificatePin;
         await File.WriteAllTextAsync(settingsPath, JsonSerializer.Serialize(settings,new JsonSerializerOptions {WriteIndented=true}));
